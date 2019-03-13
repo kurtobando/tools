@@ -187,7 +187,8 @@
 				$whois = shell_exec("whois " . $query);
 
 				print_r($whois);
-			
+				
+				echo '<a class="uk-button uk-button-primary uk-float-right" href="#scroll-up" uk-scroll>Scroll Up</a>'
 			endif;
 			
 			
@@ -196,7 +197,6 @@
 		</pre>
 	</div>
 	
-	<a class="uk-button uk-button-primary uk-float-right" href="#scroll-up" uk-scroll>Scroll Up</a>
 	
 	<!-- UIkit JS -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/js/uikit.min.js"></script>
