@@ -68,125 +68,129 @@
 
 
 			// prevent empty queries
-			if(empty($this->input->get("domain-query"))){
-				exit();
-			}
+			if(!empty($this->input->get("domain-query"))) :
 
+				// http://php.net/manual/en/function.dns-get-record.php
+				// add . to read subdomains records
+				$query = trim($this->input->get("domain-query")) . ".";
 
-			// http://php.net/manual/en/function.dns-get-record.php
-			// add . to read subdomains records
-			$query = trim($this->input->get("domain-query")) . ".";
+				$result = dns_get_record($query, DNS_ALL);
+				// print_r($result);
 
-			$result = dns_get_record($query, DNS_ALL);
-			// print_r($result);
+				foreach ($result as $key => $val){
 
-			foreach ($result as $key => $val){
-
-				// get all NS
-				if($result[$key]['type'] === "NS"){
-					array_push(
-						$record_NS,
-						$val['target']
-					);
-
-					$dig_result["NS"] = $record_NS;
-				}
-
-
-				// get all A
-				if($result[$key]['type'] === "A"){
-					array_push(
-						$record_A,
-						$val['ip']
-					);
-
-					$dig_result["A"] = $record_A;
-				}
-
-
-				// get all CNAME
-				if($result[$key]['type'] === "CNAME"){
-
-					// check MX IPs only for A and AAAA
-					$CNAME_values = dns_get_record($val['target'], DNS_A + DNS_AAAA);
-
-					foreach($CNAME_values as $index => $value ){
-
-						$ipv4 = isset($CNAME_values[0]['ip']) ? $CNAME_values[0]['ip'] : "";
-						$ipv6 = isset($CNAME_values[1]['ipv6']) ? $CNAME_values[1]['ipv6'] : "";
-
-						$record_CNAME_values = array(
-							$val['target'],
-							$ipv4, 
-							$ipv6
+					// get all NS
+					if($result[$key]['type'] === "NS"){
+						array_push(
+							$record_NS,
+							$val['target']
 						);
+
+						$dig_result["NS"] = $record_NS;
 					}
 
-					array_push(
-						$record_CNAME,
-						$record_CNAME_values
-					);
 
-					$dig_result["CNAME"] = $record_CNAME;
-				}
-
-
-				// get all AAAA
-				if($result[$key]['type'] === "AAAA"){
-					array_push(
-						$record_AAAA,
-						$val['ipv6']
-					);
-
-					$dig_result["AAAA"] = $record_AAAA;
-				}
-
-
-				// get all TXT
-				if($result[$key]['type'] === "TXT"){
-					array_push(
-						$record_TXT,
-						$val['txt']
-					);
-
-					$dig_result["TXT"] = $record_TXT;
-				}
-
-
-				// get all MX
-				if($result[$key]['type'] === "MX"){
-
-					// check MX IPs only for A and AAAA
-					$MX_values = dns_get_record($val['target'], DNS_A + DNS_AAAA);
-
-					foreach($MX_values as $index => $value ){
-
-						$ipv4 = isset($MX_values[0]['ip']) ? $MX_values[0]['ip'] : "";
-						$ipv6 = isset($MX_values[1]['ipv6']) ? $MX_values[1]['ipv6'] : "";
-
-						$record_MX_values = array(
-							$val['target'],
-							$ipv4, 
-							$ipv6
+					// get all A
+					if($result[$key]['type'] === "A"){
+						array_push(
+							$record_A,
+							$val['ip']
 						);
+
+						$dig_result["A"] = $record_A;
 					}
 
-					array_push(
-						$record_MX,
-						$record_MX_values
-					);
 
-					$dig_result["MX"] = $record_MX;
+					// get all CNAME
+					if($result[$key]['type'] === "CNAME"){
+
+						// check MX IPs only for A and AAAA
+						$CNAME_values = dns_get_record($val['target'], DNS_A + DNS_AAAA);
+
+						foreach($CNAME_values as $index => $value ){
+
+							$ipv4 = isset($CNAME_values[0]['ip']) ? $CNAME_values[0]['ip'] : "";
+							$ipv6 = isset($CNAME_values[1]['ipv6']) ? $CNAME_values[1]['ipv6'] : "";
+
+							$record_CNAME_values = array(
+								$val['target'],
+								$ipv4, 
+								$ipv6
+							);
+						}
+
+						array_push(
+							$record_CNAME,
+							$record_CNAME_values
+						);
+
+						$dig_result["CNAME"] = $record_CNAME;
+					}
+
+
+					// get all AAAA
+					if($result[$key]['type'] === "AAAA"){
+						array_push(
+							$record_AAAA,
+							$val['ipv6']
+						);
+
+						$dig_result["AAAA"] = $record_AAAA;
+					}
+
+
+					// get all TXT
+					if($result[$key]['type'] === "TXT"){
+						array_push(
+							$record_TXT,
+							$val['txt']
+						);
+
+						$dig_result["TXT"] = $record_TXT;
+					}
+
+
+					// get all MX
+					if($result[$key]['type'] === "MX"){
+
+						// check MX IPs only for A and AAAA
+						$MX_values = dns_get_record($val['target'], DNS_A + DNS_AAAA);
+
+						foreach($MX_values as $index => $value ){
+
+							$ipv4 = isset($MX_values[0]['ip']) ? $MX_values[0]['ip'] : "";
+							$ipv6 = isset($MX_values[1]['ipv6']) ? $MX_values[1]['ipv6'] : "";
+
+							$record_MX_values = array(
+								$val['target'],
+								$ipv4, 
+								$ipv6
+							);
+						}
+
+						array_push(
+							$record_MX,
+							$record_MX_values
+						);
+
+						$dig_result["MX"] = $record_MX;
+					}
 				}
-			}
 
 
-			print_r($dig_result);
+				print_r($dig_result);
+
+				print "<hr>";
+
+
+				// whois query
+				$whois = shell_exec("whois " . $query);
+
+				print_r($whois);
 			
-			print "<hr>";
+			endif;
 			
-			$whois = shell_exec("whois " . $query);
-			print_r($whois);
+			
 	
 			?>
 		</pre>
