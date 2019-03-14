@@ -11,8 +11,7 @@ let xmlhr = new XMLHttpRequest();
 
 let domainQueryForm = document.domainQueryForm;
 let domainQueryInput = domainQueryForm.domainQueryInput;
-let tag_ul_dns = document.getElementById("dns-results");
-let tag_li = document.createElement("li");
+let dns_result = document.getElementById("dns-results");
 let whois = document.getElementById("whois-results");
 let done_parse;
 
@@ -41,7 +40,7 @@ let done_parse;
 			console.log('status:', xmlhr.status);
 			console.log('readyState:', xmlhr.readyState);
 			
-			tag_ul_dns.innerHTML = "loading ...";
+			dns_result.innerHTML = "loading ...";
 		};
 		
 		// readyState will be 3
@@ -50,7 +49,7 @@ let done_parse;
 			console.log('status:', xmlhr.status);
 			console.log('readyState:', xmlhr.readyState);
 			
-			tag_ul_dns.innerHTML = "almost there ...";
+			dns_result.innerHTML = "almost there ...";
 		};
 		
 		// readyState will be 4
@@ -60,23 +59,26 @@ let done_parse;
 			console.log('readyState:', xmlhr.readyState);
 			
 			// clear loading text 
-			tag_ul_dns.innerHTML = "";
+			dns_result.innerHTML = "";
 			
 			// parse JSON 
 			done_parse = JSON.parse(xmlhr.responseText);
 			
 			// display records to dns-results div
 			display_to_html(done_parse.NS, "NS");
-			display_to_html(done_parse.CNAME, "CNAME");
+			display_to_html(done_parse.CNAME, "CNAME with corresponding ipv4,ivp6 record");
 			display_to_html(done_parse.AAAA, "AAAA");
 			display_to_html(done_parse.A, "A");
-			display_to_html(done_parse.MX, "MX (w/ corresponding Mail A record)");
+			display_to_html(done_parse.MX, "MX with corresponding ipv4,ivp6 record");
 			display_to_html(done_parse.TXT, "TXT");
 			
 			// display whois
 			if(done_parse.whois !== undefined){
 				whois.innerHTML = done_parse.whois;
 			}
+			
+			// display dns history link
+			display_dns_history(domainQueryInput.value);
 		};
 		
 		xmlhr.send();
@@ -89,23 +91,45 @@ let done_parse;
 		
 		if(typeof json === "object"){
 			
-			let temp_ul = document.createElement("ul");
+			let temp_ul = document.createElement("section");
 			
 			// insert records name here for example (A, NS, MX and TXT)
-			let temp_li_record_name = document.createElement("li");
+			let temp_li_record_name = document.createElement("strong");
 				temp_li_record_name.innerHTML = record_name;
 				temp_ul.appendChild(temp_li_record_name);
 
 			// insert each dns to li then add the temp ul tag
 			for (const [key, value] of Object.entries(json)) {
 				
-				let temp_li_value = document.createElement("li");
+				let temp_li_value = document.createElement("div");
 					temp_li_value.innerHTML = value;
 
 					temp_ul.appendChild(temp_li_value);
-					tag_ul_dns.appendChild(temp_ul);
+					dns_result.appendChild(temp_ul);
 			}
 		}
+	}
+
+	function display_dns_history(query){
+		
+		function ValidateIPaddress(ipaddress) {
+			if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ipaddress)) {
+				return (true)
+			}
+			return (false)
+		}
+		
+
+// 		if(ValidateIPaddress(query)){
+// 			var ipHistory = "https://securitytrails.com/list/ip/178.128.95.121";
+
+// 		}
+// 		else{
+// 			var dnsHistory = "https://securitytrails.com/domain/google.com/history/ns";
+
+// 		}
+		
+		console.log(query);
 	}
 
 console.log(base_url);

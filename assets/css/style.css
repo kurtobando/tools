@@ -1,9 +1,4 @@
-#dns-results ul {
-	list-style: none;
-	padding: 0;
-}
-
-#dns-results ul li:first-child {
-	font-weight: bold;
+#dns-results section {
+	margin : 1em;
 }
 

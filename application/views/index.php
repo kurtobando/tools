@@ -58,8 +58,9 @@
 
 	
 <!-- 		<label uk-icon="copy">Copy </label> -->
+		<a href="https://securitytrails.com/domain/google.com/history/ns" target="_blank"></a>
 		<pre class="uk-background-muted">
-			<ul id="dns-results"></ul>
+			<div id="dns-results"></div>
 			<div id="whois-results"></div>
 		</pre>
 		<a class="uk-button uk-button-primary uk-float-right" href="#scroll-up" uk-scroll>Scroll Up</a>
