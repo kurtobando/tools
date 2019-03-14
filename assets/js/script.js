@@ -32,7 +32,7 @@ let done_parse;
 		}
 
 		// send get request
-		xmlhr.open('GET','//dev.kurtobando.com/tools/tools/dns_ajax?domain-query=' + domainQueryInput.value, true);
+		xmlhr.open('GET', base_url + 'tools/dns_ajax?domain-query=' + domainQueryInput.value, true);
 		xmlhr.setRequestHeader("X-Requested-With",'xmlhttprequest');
 		
 		// readyState will be 1
@@ -108,3 +108,4 @@ let done_parse;
 		}
 	}
 
+console.log(base_url);

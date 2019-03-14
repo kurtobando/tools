@@ -18,6 +18,9 @@
 	<!-- UIkit CSS -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/css/uikit.min.css" />
 	<link rel="stylesheet" href="<?php echo base_url();?>assets/css/style.css" type="text/css">
+	<script>
+		let base_url = "<?php echo base_url();?>";
+	</script>
 </head>
 
 <body>
