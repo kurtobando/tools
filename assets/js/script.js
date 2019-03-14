@@ -80,6 +80,11 @@ let done_parse;
 			
 			// display dns history link
 			display_dns_history(domainQueryInput.value);
+			
+			// display error
+			if(done_parse.error !== undefined){
+				dns_result.innerHTML = done_parse.error;
+			}
 		};
 		
 		xmlhr.send();
@@ -133,7 +138,7 @@ let done_parse;
 		let a_tag = document.createElement("a");
 			a_tag.setAttribute("href", dnsHistory);
 			a_tag.setAttribute("target", "_blank");
-			a_tag.setAttribute("class", "uk-link-muted uk-text-meta");
+			a_tag.setAttribute("class", "uk-button-link");
 			a_tag.innerHTML = "View DNS History";
 		
 		dns_history.innerHTML = "";

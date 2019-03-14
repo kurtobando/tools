@@ -36,14 +36,22 @@ class Tools extends CI_Controller {
 
 		// prevent empty queries
 		if(!empty($query)) :
-
-			// http://php.net/manual/en/function.dns-get-record.php
+			
+			// remove the dns_get_record warning
+			error_reporting(0);
+		
+			// whois query
+			$dig_result["whois"] = shell_exec("whois " . $query);
+		
 			// add . to read subdomains records
 			$query = trim($query) . ".";
-
 			$result = dns_get_record($query, DNS_ALL);
-			// print_r($result);
-
+		
+			if ($result === false) {
+				$dig_result["error"] = "no records propagating";
+			} 
+			
+			// retrieve DNS records manually
 			foreach ($result as $key => $val){
 
 				// get all NS
@@ -144,10 +152,7 @@ class Tools extends CI_Controller {
 				}
 			}
 
-
-			// whois query
-			$dig_result["whois"] = shell_exec("whois " . $query);
-
+			// prepare json output for ajax request 
 			echo json_encode($dig_result);
 
 		endif;
