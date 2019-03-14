@@ -58,7 +58,7 @@
 
 	
 <!-- 		<label uk-icon="copy">Copy </label> -->
-		<div id="dns-history">
+		<div id="dns-history" class="uk-margin uk-margin-left">
 			
 		</div>
 		<pre class="uk-background-muted">

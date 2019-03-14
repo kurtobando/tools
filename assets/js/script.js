@@ -133,6 +133,7 @@ let done_parse;
 		let a_tag = document.createElement("a");
 			a_tag.setAttribute("href", dnsHistory);
 			a_tag.setAttribute("target", "_blank");
+			a_tag.setAttribute("class", "uk-link-muted uk-text-meta");
 			a_tag.innerHTML = "View DNS History";
 		
 		dns_history.innerHTML = "";
