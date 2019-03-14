@@ -12,6 +12,7 @@ let xmlhr = new XMLHttpRequest();
 let domainQueryForm = document.domainQueryForm;
 let domainQueryInput = domainQueryForm.domainQueryInput;
 let dns_result = document.getElementById("dns-results");
+let dns_history = document.getElementById("dns-history");
 let whois = document.getElementById("whois-results");
 let done_parse;
 
@@ -91,27 +92,28 @@ let done_parse;
 		
 		if(typeof json === "object"){
 			
-			let temp_ul = document.createElement("section");
+			let dns_result_section = document.createElement("section");
 			
 			// insert records name here for example (A, NS, MX and TXT)
-			let temp_li_record_name = document.createElement("strong");
-				temp_li_record_name.innerHTML = record_name;
-				temp_ul.appendChild(temp_li_record_name);
+			let dns_result_strong = document.createElement("strong");
+				dns_result_strong.innerHTML = record_name;
+				dns_result_section.appendChild(dns_result_strong);
 
 			// insert each dns to li then add the temp ul tag
 			for (const [key, value] of Object.entries(json)) {
 				
-				let temp_li_value = document.createElement("div");
-					temp_li_value.innerHTML = value;
+				let dns_result_div = document.createElement("div");
+					dns_result_div.innerHTML = value;
 
-					temp_ul.appendChild(temp_li_value);
-					dns_result.appendChild(temp_ul);
+					dns_result_section.appendChild(dns_result_div);
+					dns_result.appendChild(dns_result_section);
 			}
 		}
 	}
 
 	function display_dns_history(query){
 		
+		// validated IP Address 
 		function ValidateIPaddress(ipaddress) {
 			if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ipaddress)) {
 				return (true)
@@ -119,17 +121,21 @@ let done_parse;
 			return (false)
 		}
 		
-
-// 		if(ValidateIPaddress(query)){
-// 			var ipHistory = "https://securitytrails.com/list/ip/178.128.95.121";
-
-// 		}
-// 		else{
-// 			var dnsHistory = "https://securitytrails.com/domain/google.com/history/ns";
-
-// 		}
+		// Prepare securitytrails link
+		var dnsHistory; 
 		
-		console.log(query);
+		if(ValidateIPaddress(query)){
+			dnsHistory= "https://securitytrails.com/list/ip/" + query;
+		}
+		else{
+			dnsHistory = "https://securitytrails.com/domain/" + query + "/history/ns";
+		}
+		let a_tag = document.createElement("a");
+			a_tag.setAttribute("href", dnsHistory);
+			a_tag.setAttribute("target", "_blank");
+			a_tag.innerHTML = "View DNS History";
+		
+		dns_history.innerHTML = "";
+		dns_history.appendChild(a_tag)  ;
 	}
 
-console.log(base_url);
