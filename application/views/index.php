@@ -58,11 +58,10 @@
 
 	
 <!-- 		<label uk-icon="copy">Copy </label> -->
-		<div id="dns-history" class="uk-margin uk-margin-left">
-			
-		</div>
+		<div id="dns-history" class="uk-margin uk-margin-left uk-display-inline-block"></div>
+		<div id="reputation" class="uk-margin uk-margin-left uk-display-inline-block"></div>
 		<pre class="uk-background-muted">
-			<div id="dns-results"></div>
+			<div id="dns-results"></div> 
 			<div id="whois-results"></div>
 		</pre>
 <!-- 		<a class="uk-button uk-button-primary uk-float-right" href="#scroll-up" uk-scroll>Scroll Up</a> -->

@@ -13,6 +13,7 @@ let domainQueryForm = document.domainQueryForm;
 let domainQueryInput = domainQueryForm.domainQueryInput;
 let dns_result = document.getElementById("dns-results");
 let dns_history = document.getElementById("dns-history");
+let reputation = document.getElementById("reputation");
 let whois = document.getElementById("whois-results");
 let done_parse;
 
@@ -81,6 +82,9 @@ let done_parse;
 			// display dns history link
 			display_dns_history(domainQueryInput.value);
 			
+			// display reputation
+			display_reputation(domainQueryInput.value);
+			
 			// display error
 			if(done_parse.error !== undefined){
 				dns_result.innerHTML = done_parse.error;
@@ -127,21 +131,36 @@ let done_parse;
 		}
 		
 		// Prepare securitytrails link
-		var dnsHistory; 
+		let dns_history_link; 
 		
 		if(ValidateIPaddress(query)){
-			dnsHistory= "https://securitytrails.com/list/ip/" + query;
+			dns_history_link = "https://securitytrails.com/list/ip/" + query;
 		}
 		else{
-			dnsHistory = "https://securitytrails.com/domain/" + query + "/history/ns";
+			dns_history_link  = "https://securitytrails.com/domain/" + query + "/history/ns";
 		}
+		
 		let a_tag = document.createElement("a");
-			a_tag.setAttribute("href", dnsHistory);
+			a_tag.setAttribute("href", dns_history_link );
 			a_tag.setAttribute("target", "_blank");
 			a_tag.setAttribute("class", "uk-button-link");
 			a_tag.innerHTML = "View DNS History";
 		
 		dns_history.innerHTML = "";
-		dns_history.appendChild(a_tag)  ;
+		dns_history.appendChild(a_tag);
+	}
+
+	function display_reputation(query){
+		
+		let reputation_link = "https://www.talosintelligence.com/reputation_center/lookup?search=" + query;
+		
+		let a_tag = document.createElement("a");
+			a_tag.setAttribute("href", reputation_link);
+			a_tag.setAttribute("target", "_blank");
+			a_tag.setAttribute("class", "uk-button-link");
+			a_tag.innerHTML = "View Reputation";
+		
+		reputation.innerHTML = "";
+		reputation.appendChild(a_tag)  ;
 	}
 
