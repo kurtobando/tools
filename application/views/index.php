@@ -58,12 +58,14 @@
 
 	
 <!-- 		<label uk-icon="copy">Copy </label> -->
-		<div id="dns-history" class="uk-margin uk-margin-left uk-display-inline-block"></div>
-		<div id="reputation" class="uk-margin uk-margin-left uk-display-inline-block"></div>
+		<div id="link_dns_history" class="uk-margin uk-margin-left uk-display-inline-block"></div>
+		<div id="link_reputation" class="uk-margin uk-margin-left uk-display-inline-block"></div>
+		<div id="link_whois" class="uk-margin uk-margin-left uk-display-inline-block"></div>
+		<div id="link_dig" class="uk-margin uk-margin-left uk-display-inline-block"></div>
 		<pre class="uk-background-muted">
 			<div id="domain-query"></div> 
-			<div id="dns-results"></div> 
-			<div id="whois-results"></div>
+			<div id="result_dns"></div> 
+			<div id="result_whois"></div>
 		</pre>
 <!-- 		<a class="uk-button uk-button-primary uk-float-right" href="#scroll-up" uk-scroll>Scroll Up</a> -->
 	</div>

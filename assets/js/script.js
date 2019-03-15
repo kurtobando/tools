@@ -6,23 +6,33 @@ screen_width.innerHTML = window.screen.width;
 screen_height.innerHTML = window.screen.height;
 
 
+
 // for domain query form
 let xmlhr = new XMLHttpRequest();
 
+// name of form and input tags
 let domainQueryForm = document.domainQueryForm;
 let domainQueryInput = domainQueryForm.domainQueryInput;
-let dns_result = document.getElementById("dns-results");
-let dns_history = document.getElementById("dns-history");
-let reputation = document.getElementById("reputation");
-let whois = document.getElementById("whois-results");
+
+// div inside pre tags
+let result_dns = document.getElementById("result_dns");
+let result_whois = document.getElementById("result_whois");
+
+// display all helpful links
+let link_dns_history = document.getElementById("link_dns_history");
+let link_reputation = document.getElementById("link_reputation");
+let link_whois = document.getElementById("link_whois");
+let link_dig = document.getElementById("link_dig");
+
+// search input field
 let domain_query = document.getElementById("domain-query");
 let done_parse;
 
 
 	domainQueryForm.addEventListener('submit', function(event){
 
-		console.info(xmlhr);
-		console.info(event);
+// 		console.info(xmlhr);
+// 		console.info(event);
 		
 		// prevent default submit in form
 		event.preventDefault();
@@ -39,30 +49,30 @@ let done_parse;
 		
 		// readyState will be 1
 		xmlhr.onloadstart = function () {
-			console.info("->onloadstart");
-			console.log('status:', xmlhr.status);
-			console.log('readyState:', xmlhr.readyState);
+// 			console.info("->onloadstart");
+// 			console.log('status:', xmlhr.status);
+// 			console.log('readyState:', xmlhr.readyState);
 			
-			dns_result.innerHTML = "loading ...";
+			result_dns.innerHTML = "loading ...";
 		};
 		
 		// readyState will be 3
 		xmlhr.onprogress = function () {
-			console.info("->onprogress");
-			console.log('status:', xmlhr.status);
-			console.log('readyState:', xmlhr.readyState);
+// 			console.info("->onprogress");
+// 			console.log('status:', xmlhr.status);
+// 			console.log('readyState:', xmlhr.readyState);
 			
-			dns_result.innerHTML = "almost there ...";
+			result_dns.innerHTML = "almost there ...";
 		};
 		
 		// readyState will be 4
 		xmlhr.onload = function () {
-			console.info("->onload");
-			console.log('status:', xmlhr.status);
-			console.log('readyState:', xmlhr.readyState);
+// 			console.info("->onload");
+// 			console.log('status:', xmlhr.status);
+// 			console.log('readyState:', xmlhr.readyState);
 			
 			// clear loading text 
-			dns_result.innerHTML = "";
+			result_dns.innerHTML = "";
 			
 			// show domain query in results
 			domain_query.innerHTML = "";
@@ -82,18 +92,24 @@ let done_parse;
 
 			// display whois
 			if(done_parse.whois !== undefined){
-				whois.innerHTML = done_parse.whois;
+				result_whois.innerHTML = done_parse.whois;
 			}
 			
 			// display dns history link
-			display_dns_history(domainQueryInput.value);
+			display_link_dns_history(domainQueryInput.value);
 			
-			// display reputation
-			display_reputation(domainQueryInput.value);
+			// display link_reputation
+			display_link_reputation(domainQueryInput.value);
+			
+			// whois link
+			display_whois(domainQueryInput.value);
+			
+			// dig link
+			display_dig(domainQueryInput.value);
 			
 			// display error
 			if(done_parse.error !== undefined){
-				dns_result.innerHTML = done_parse.error;
+				result_dns.innerHTML = done_parse.error;
 			}
 		};
 		
@@ -107,41 +123,42 @@ let done_parse;
 		
 		if(typeof json === "object"){
 			
-			let dns_result_section = document.createElement("section");
+			// parent tag for each DNS records divs
+			let result_dns_section = document.createElement("section");
 			
 			// insert records name here for example (A, NS, MX and TXT)
-			let dns_result_strong = document.createElement("strong");
-				dns_result_strong.innerHTML = record_name;
-				dns_result_section.appendChild(dns_result_strong);
+			let result_dns_strong 				= document.createElement("strong");
+				result_dns_strong.innerHTML 	= record_name;
+				result_dns_section.appendChild(result_dns_strong);
 
-			// insert each dns to li then add the temp ul tag
+			// insert each dns to div then add the temp section tag
 			for (const [key, value] of Object.entries(json)) {
 				
 				// if value lenght is undefined, then we are now working with SRV
 				if(value.length === undefined){
 					for (const [x, y] of Object.entries(value)){
 						
-						let dns_result_div = document.createElement("div");
+						let result_dns_div = document.createElement("div");
 							
 							// if last record = target, add break line
-							dns_result_div.innerHTML = (x === "target") ? x + " : " + y + "<br><br>" : x + " : " + y ;
+							result_dns_div.innerHTML = (x === "target") ? x + " : " + y + "<br><br>" : x + " : " + y ;
 						
-							dns_result_section.appendChild(dns_result_div);
-							dns_result.appendChild(dns_result_section);
+							result_dns_section.appendChild(result_dns_div);
+							result_dns.appendChild(result_dns_section);
 					}
 				}
 				else{
-					let dns_result_div = document.createElement("div");
-						dns_result_div.innerHTML = value;
+					let result_dns_div = document.createElement("div");
+						result_dns_div.innerHTML = value;
 
-						dns_result_section.appendChild(dns_result_div);
-						dns_result.appendChild(dns_result_section);
+						result_dns_section.appendChild(result_dns_div);
+						result_dns.appendChild(result_dns_section);
 				}
 			}
 		}
 	}
 
-	function display_dns_history(query){
+	function display_link_dns_history(query){
 		
 		// validated IP Address 
 		function ValidateIPaddress(ipaddress) {
@@ -167,11 +184,11 @@ let done_parse;
 			a_tag.setAttribute("class", "uk-button-link");
 			a_tag.innerHTML = "View DNS History";
 		
-		dns_history.innerHTML = "";
-		dns_history.appendChild(a_tag);
+		link_dns_history.innerHTML = "";
+		link_dns_history.appendChild(a_tag);
 	}
 
-	function display_reputation(query){
+	function display_link_reputation(query){
 		
 		let reputation_link = "https://www.talosintelligence.com/reputation_center/lookup?search=" + query;
 		
@@ -181,7 +198,35 @@ let done_parse;
 			a_tag.setAttribute("class", "uk-button-link");
 			a_tag.innerHTML = "View Reputation";
 		
-		reputation.innerHTML = "";
-		reputation.appendChild(a_tag)  ;
+		link_reputation.innerHTML = "";
+		link_reputation.appendChild(a_tag)  ;
+	}
+
+	function display_whois(query){
+		
+		let whois_link = "https://www.whois.com/whois/" + query;
+		
+		let a_tag = document.createElement("a");
+			a_tag.setAttribute("href", whois_link);
+			a_tag.setAttribute("target", "_blank");
+			a_tag.setAttribute("class", "uk-button-link");
+			a_tag.innerHTML = "View Whois Link";
+		
+		link_whois.innerHTML = "";
+		link_whois.appendChild(a_tag)  ;
+	}
+
+	function display_dig(query){
+		
+		let dig_link = "https://toolbox.googleapps.com/apps/dig/#ANY/" + query;
+		
+		let a_tag = document.createElement("a");
+			a_tag.setAttribute("href", dig_link);
+			a_tag.setAttribute("target", "_blank");
+			a_tag.setAttribute("class", "uk-button-link");
+			a_tag.innerHTML = "View Dig";
+		
+		link_dig.innerHTML = "";
+		link_dig.appendChild(a_tag)  ;
 	}
 
