@@ -32,6 +32,7 @@ class Tools extends CI_Controller {
 		$record_CNAME_values = array();	
 		$record_MX 		= array();
 		$record_MX_values = array();
+		$record_SRV 	= array();
 
 
 		// prevent empty queries
@@ -46,7 +47,7 @@ class Tools extends CI_Controller {
 			// add . to read subdomains records
 			$query = trim($query) . ".";
 			$result = dns_get_record($query, DNS_ALL);
-		
+				
 			if ($result === false) {
 				$dig_result["error"] = "no records propagating";
 			} 
@@ -54,6 +55,7 @@ class Tools extends CI_Controller {
 			// retrieve DNS records manually
 			foreach ($result as $key => $val){
 
+				
 				// get all NS
 				if($result[$key]['type'] === "NS"){
 					array_push(
@@ -123,8 +125,25 @@ class Tools extends CI_Controller {
 
 					$dig_result["TXT"] = $record_TXT;
 				}
+				
+				
+				// get all SRV
+				if($result[$key]['type'] === "SRV"){
+					array_push(
+						$record_SRV,
+						array(
+							"host" 		=> $val['host'],
+							"priority" 	=> $val['pri'],
+							"weight" 	=> $val['weight'],
+							"port" 		=> $val['port'],
+							"target" 	=> $val['target']
+						)
+					);
+					
+					$dig_result["SRV"] = $record_SRV;
+				}
 
-
+				
 				// get all MX
 				if($result[$key]['type'] === "MX"){
 

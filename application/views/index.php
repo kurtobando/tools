@@ -61,6 +61,7 @@
 		<div id="dns-history" class="uk-margin uk-margin-left uk-display-inline-block"></div>
 		<div id="reputation" class="uk-margin uk-margin-left uk-display-inline-block"></div>
 		<pre class="uk-background-muted">
+			<div id="domain-query"></div> 
 			<div id="dns-results"></div> 
 			<div id="whois-results"></div>
 		</pre>

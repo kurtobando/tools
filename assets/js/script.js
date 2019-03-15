@@ -15,6 +15,7 @@ let dns_result = document.getElementById("dns-results");
 let dns_history = document.getElementById("dns-history");
 let reputation = document.getElementById("reputation");
 let whois = document.getElementById("whois-results");
+let domain_query = document.getElementById("domain-query");
 let done_parse;
 
 
@@ -31,7 +32,7 @@ let done_parse;
 			console.info("->empty domain or query ip");
 			return false;
 		}
-
+		
 		// send get request
 		xmlhr.open('GET', base_url + 'tools/dns_ajax?domain-query=' + domainQueryInput.value, true);
 		xmlhr.setRequestHeader("X-Requested-With",'xmlhttprequest');
@@ -63,6 +64,10 @@ let done_parse;
 			// clear loading text 
 			dns_result.innerHTML = "";
 			
+			// show domain query in results
+			domain_query.innerHTML = "";
+			domain_query.innerHTML = "Search result: " + domainQueryInput.value;
+			
 			// parse JSON 
 			done_parse = JSON.parse(xmlhr.responseText);
 			
@@ -73,7 +78,8 @@ let done_parse;
 			display_to_html(done_parse.A, "A");
 			display_to_html(done_parse.MX, "MX with corresponding ipv4,ivp6 record");
 			display_to_html(done_parse.TXT, "TXT");
-			
+			display_to_html(done_parse.SRV, "SRV");
+
 			// display whois
 			if(done_parse.whois !== undefined){
 				whois.innerHTML = done_parse.whois;
@@ -111,11 +117,26 @@ let done_parse;
 			// insert each dns to li then add the temp ul tag
 			for (const [key, value] of Object.entries(json)) {
 				
-				let dns_result_div = document.createElement("div");
-					dns_result_div.innerHTML = value;
+				// if value lenght is undefined, then we are now working with SRV
+				if(value.length === undefined){
+					for (const [x, y] of Object.entries(value)){
+						
+						let dns_result_div = document.createElement("div");
+							
+							// if last record = target, add break line
+							dns_result_div.innerHTML = (x === "target") ? x + " : " + y + "<br><br>" : x + " : " + y ;
+						
+							dns_result_section.appendChild(dns_result_div);
+							dns_result.appendChild(dns_result_section);
+					}
+				}
+				else{
+					let dns_result_div = document.createElement("div");
+						dns_result_div.innerHTML = value;
 
-					dns_result_section.appendChild(dns_result_div);
-					dns_result.appendChild(dns_result_section);
+						dns_result_section.appendChild(dns_result_div);
+						dns_result.appendChild(dns_result_section);
+				}
 			}
 		}
 	}
