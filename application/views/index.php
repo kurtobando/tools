@@ -28,20 +28,20 @@
 		<a href="#scroll-up" uk-scroll></a>
 		
 		
-		<div class="uk-margin-top uk-margin-large-bottom">
+		<div class="uk-margin-top uk-margin-bottom">
 		
 			<!-- https://stackoverflow.com/questions/3003145/how-to-get-the-client-ip-address-in-php -->
 			<!-- https://stackoverflow.com/questions/24266212/how-to-get-ip-address-in-codeigniter -->
-			<label for="ip-address" uk-icon="world"></label>
-			<span class="uk-badge"><?php echo $this->input->ip_address(); ?></span>
+<!-- 			<label for="ip-address" uk-icon="world"></label> -->
+<!-- 			<span class="uk-badge"><?php //echo $this->input->ip_address(); ?></span> -->
 			
 
 			<!-- https://stackoverflow.com/questions/1504459/getting-the-screen-resolution-using-php -->
-			<label for="screen-width" uk-icon="desktop">Screen width </label>
-			<span class="uk-badge" id="screen-width"></span>
+<!-- 			<label for="screen-width" uk-icon="desktop">Screen width </label> -->
+<!-- 			<span class="uk-badge" id="screen-width"></span> -->
 
-			<label for="screen-height"  uk-icon="desktop">Screen height </label>
-			<span class="uk-badge" id="screen-height"></span>
+<!-- 			<label for="screen-height"  uk-icon="desktop">Screen height </label> -->
+<!-- 			<span class="uk-badge" id="screen-height"></span> -->
 		
 		</div>
 		
@@ -58,10 +58,10 @@
 
 	
 <!-- 		<label uk-icon="copy">Copy </label> -->
-		<div id="link_dns_history" class="uk-margin uk-margin-left uk-display-inline-block"></div>
-		<div id="link_reputation" class="uk-margin uk-margin-left uk-display-inline-block"></div>
-		<div id="link_whois" class="uk-margin uk-margin-left uk-display-inline-block"></div>
-		<div id="link_dig" class="uk-margin uk-margin-left uk-display-inline-block"></div>
+		<div id="link_dns_history" class="uk-margin-left uk-display-inline-block"></div>
+		<div id="link_reputation" class="uk-margin-left uk-display-inline-block"></div>
+		<div id="link_whois" class="uk-margin-left uk-display-inline-block"></div>
+		<div id="link_dig" class="uk-margin-left uk-display-inline-block"></div>
 		<pre class="uk-background-muted">
 			<div id="domain-query"></div> 
 			<div id="result_dns"></div> 
