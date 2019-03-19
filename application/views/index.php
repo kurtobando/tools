@@ -28,7 +28,7 @@
 		<a href="#scroll-up" uk-scroll></a>
 		
 		
-		<div class="uk-margin-top uk-margin-bottom">
+		<div class="uk-margin-large top uk-margin-bottom">
 		
 			<!-- https://stackoverflow.com/questions/3003145/how-to-get-the-client-ip-address-in-php -->
 			<!-- https://stackoverflow.com/questions/24266212/how-to-get-ip-address-in-codeigniter -->
@@ -52,17 +52,20 @@
 				<input class="uk-button uk-button-primary" type="submit" value="Dig Records">
 			</div>
 			
+			<div class="uk-alert-danger" uk-alert hidden>
+				<a class="uk-alert-close" uk-close></a>
+				<p >Empty Search</p>
+			</div>
 			<div class="uk-margin-bottom"></div>
-			
 		</form>
 
 	
 <!-- 		<label uk-icon="copy">Copy </label> -->
-		<div id="link_dns_history" class="uk-margin-left uk-display-inline-block"></div>
-		<div id="link_reputation" class="uk-margin-left uk-display-inline-block"></div>
-		<div id="link_whois" class="uk-margin-left uk-display-inline-block"></div>
-		<div id="link_dig" class="uk-margin-left uk-display-inline-block"></div>
-		<pre class="uk-background-muted">
+		<div id="link_dns_history" class="uk-margin-left uk-display-inline-block uk-text-small"></div>
+		<div id="link_reputation" class="uk-margin-left uk-display-inline-block uk-text-small"></div>
+		<div id="link_whois" class="uk-margin-left uk-display-inline-block uk-text-small"></div>
+		<div id="link_dig" class="uk-margin-left uk-display-inline-block uk-text-small"></div>
+		<pre class="uk-background-muted" hidden>
 			<div id="domain-query"></div> 
 			<div id="result_dns"></div> 
 			<div id="result_whois"></div>

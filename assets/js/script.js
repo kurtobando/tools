@@ -13,10 +13,12 @@ let xmlhr = new XMLHttpRequest();
 // name of form and input tags
 let domainQueryForm = document.domainQueryForm;
 let domainQueryInput = domainQueryForm.domainQueryInput;
+let domainQueryError = document.querySelector(".uk-alert-danger");
 
 // div inside pre tags
 let result_dns = document.getElementById("result_dns");
 let result_whois = document.getElementById("result_whois");
+let result_pre_tag = document.querySelector(".uk-background-muted");
 
 // display all helpful links
 let link_dns_history = document.getElementById("link_dns_history");
@@ -30,17 +32,27 @@ let done_parse;
 
 
 	domainQueryForm.addEventListener('submit', function(event){
-
-// 		console.info(xmlhr);
-// 		console.info(event);
 		
 		// prevent default submit in form
 		event.preventDefault();
 		
 		// prevent empty search
 		if(domainQueryInput.value.trim() === ""){
-			console.info("->empty domain or query ip");
+			
+			// display error message
+			if(domainQueryError.hasAttribute("hidden") === true){
+				domainQueryError.removeAttribute("hidden");
+			}
+			
 			return false;
+		}
+		
+		// display pre tag after form submit
+		if(result_pre_tag.hasAttribute("hidden") === true){
+			result_pre_tag.removeAttribute("hidden");
+			
+			// hide error message
+			domainQueryError.setAttribute("hidden", "");
 		}
 		
 		// send get request
@@ -49,27 +61,16 @@ let done_parse;
 		
 		// readyState will be 1
 		xmlhr.onloadstart = function () {
-// 			console.info("->onloadstart");
-// 			console.log('status:', xmlhr.status);
-// 			console.log('readyState:', xmlhr.readyState);
-			
 			result_dns.innerHTML = "loading ...";
 		};
 		
 		// readyState will be 3
 		xmlhr.onprogress = function () {
-// 			console.info("->onprogress");
-// 			console.log('status:', xmlhr.status);
-// 			console.log('readyState:', xmlhr.readyState);
-			
 			result_dns.innerHTML = "almost there ...";
 		};
 		
 		// readyState will be 4
 		xmlhr.onload = function () {
-// 			console.info("->onload");
-// 			console.log('status:', xmlhr.status);
-// 			console.log('readyState:', xmlhr.readyState);
 			
 			// clear loading text 
 			result_dns.innerHTML = "";
