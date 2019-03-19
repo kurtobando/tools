@@ -53,18 +53,18 @@
 			</div>
 			
 			<div class="uk-alert-danger" uk-alert hidden>
-				<a class="uk-alert-close" uk-close></a>
-				<p >Empty Search</p>
+				
+				<p><span uk-icon="warning"></span> empty search, try a domain name or an IP address instead.</p>
 			</div>
 			<div class="uk-margin-bottom"></div>
 		</form>
 
 	
 <!-- 		<label uk-icon="copy">Copy </label> -->
-		<div id="link_dns_history" class="uk-margin-left uk-display-inline-block uk-text-small"></div>
-		<div id="link_reputation" class="uk-margin-left uk-display-inline-block uk-text-small"></div>
-		<div id="link_whois" class="uk-margin-left uk-display-inline-block uk-text-small"></div>
-		<div id="link_dig" class="uk-margin-left uk-display-inline-block uk-text-small"></div>
+		<div id="link_dns_history" class="uk-margin-left uk-display-inline-block uk-text-small uk-text-muted"></div>
+		<div id="link_reputation" class="uk-margin-left uk-display-inline-block uk-text-small uk-text-muted"></div>
+		<div id="link_whois" class="uk-margin-left uk-display-inline-block uk-text-small uk-text-muted"></div>
+		<div id="link_dig" class="uk-margin-left uk-display-inline-block uk-text-small uk-text-muted"></div>
 		<pre class="uk-background-muted" hidden>
 			<div id="domain-query"></div> 
 			<div id="result_dns"></div> 

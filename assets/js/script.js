@@ -42,6 +42,15 @@ let done_parse;
 			// display error message
 			if(domainQueryError.hasAttribute("hidden") === true){
 				domainQueryError.removeAttribute("hidden");
+				
+				// hide all when search is empty
+				result_whois.innerHTML = "";
+				domain_query.innerHTML = "";
+				link_dns_history.innerHTML = "";
+				link_reputation.innerHTML = "";
+				link_whois.innerHTML = "";
+				link_dig.innerHTML = "";
+				result_pre_tag.setAttribute("hidden", "");
 			}
 			
 			return false;
@@ -61,12 +70,18 @@ let done_parse;
 		
 		// readyState will be 1
 		xmlhr.onloadstart = function () {
-			result_dns.innerHTML = "loading ...";
+			result_dns.innerHTML = "<div uk-spinner></div>";
+			result_whois.innerHTML = "";
+			domain_query.innerHTML = "";
+			link_dns_history.innerHTML = "";
+			link_reputation.innerHTML = "";
+			link_whois.innerHTML = "";
+			link_dig.innerHTML = "";
 		};
 		
 		// readyState will be 3
 		xmlhr.onprogress = function () {
-			result_dns.innerHTML = "almost there ...";
+			result_dns.innerHTML = '<b uk-icon="cloud-download"><span> almost there ... </span></b>';
 		};
 		
 		// readyState will be 4
@@ -183,7 +198,7 @@ let done_parse;
 			a_tag.setAttribute("href", dns_history_link );
 			a_tag.setAttribute("target", "_blank");
 			a_tag.setAttribute("class", "uk-button-link");
-			a_tag.innerHTML = "View DNS History";
+			a_tag.innerHTML = "DNS History <span uk-icon='link'></span>";
 		
 		link_dns_history.innerHTML = "";
 		link_dns_history.appendChild(a_tag);
@@ -197,7 +212,7 @@ let done_parse;
 			a_tag.setAttribute("href", reputation_link);
 			a_tag.setAttribute("target", "_blank");
 			a_tag.setAttribute("class", "uk-button-link");
-			a_tag.innerHTML = "View Reputation";
+			a_tag.innerHTML = "Reputation <span uk-icon='link'></span>";
 		
 		link_reputation.innerHTML = "";
 		link_reputation.appendChild(a_tag)  ;
@@ -211,7 +226,7 @@ let done_parse;
 			a_tag.setAttribute("href", whois_link);
 			a_tag.setAttribute("target", "_blank");
 			a_tag.setAttribute("class", "uk-button-link");
-			a_tag.innerHTML = "View Whois Link";
+			a_tag.innerHTML = "Whois <span uk-icon='link'></span>";
 		
 		link_whois.innerHTML = "";
 		link_whois.appendChild(a_tag)  ;
@@ -225,7 +240,7 @@ let done_parse;
 			a_tag.setAttribute("href", dig_link);
 			a_tag.setAttribute("target", "_blank");
 			a_tag.setAttribute("class", "uk-button-link");
-			a_tag.innerHTML = "View Dig";
+			a_tag.innerHTML = "Dig <span uk-icon='link'></span>";
 		
 		link_dig.innerHTML = "";
 		link_dig.appendChild(a_tag)  ;
