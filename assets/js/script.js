@@ -112,16 +112,16 @@ let done_parse;
 			}
 			
 			// display dns history link
-			display_link_dns_history(domainQueryInput.value);
+			display_link_dns_history(domainQueryInput.value.trim());
 			
 			// display link_reputation
-			display_link_reputation(domainQueryInput.value);
+			display_link_reputation(domainQueryInput.value.trim());
 			
 			// whois link
-			display_whois(domainQueryInput.value);
+			display_whois(domainQueryInput.value.trim());
 			
 			// dig link
-			display_dig(domainQueryInput.value);
+			display_dig(domainQueryInput.value.trim());
 			
 			// display error
 			if(done_parse.error !== undefined){
