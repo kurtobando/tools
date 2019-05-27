@@ -37,7 +37,6 @@ class Tools extends CI_Controller {
 
 		// prevent empty queries
 		if(!empty($query)) :
-			
 			// remove the dns_get_record warning
 			error_reporting(0);
 		
@@ -45,6 +44,8 @@ class Tools extends CI_Controller {
 			$dig_result["whois"] = shell_exec("whois " . $query);
 		
 			// add . to read subdomains records
+			// ensure /etc/resolv.conf has 8.8.8.8 as primary NS
+		
 			$query = trim($query) . ".";
 			$result = dns_get_record($query, DNS_ALL);
 				
