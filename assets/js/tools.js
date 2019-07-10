@@ -98,10 +98,11 @@ function parseTools(xmlhr_response) {
 	// AAAA record
 	dislayArrayPerLine(getValueOf(xmlhr_response.DIG.AAAA, 'ipv6'), 'AAAA RECORD');
 	
-	// show MX and Mail A + AAAA(if any) record
+	// MX and Mail A + AAAA(if any) record
 	let obj_ = xmlhr_response.DIG.MX_A;
 	
 	if (obj_ !== undefined){
+		
 		dig_result.appendChild(createElement('MX RECORD', 'b'));
 	
 		Object.keys( obj_ ).map( indexOfArray => {
@@ -118,6 +119,9 @@ function parseTools(xmlhr_response) {
 			
 		});
 	}
+	
+	// CNAME record
+	dislayArrayPerLine(getValueOf(xmlhr_response.DIG.CNAME, 'target'), 'CNAME RECORD');
 	
 	// TXT record
 	dislayArrayPerLine(getValueOf(xmlhr_response.DIG.TXT, 'txt'), 'TXT RECORD');
