@@ -7,5 +7,18 @@
 	margin-top : 1em;
 }
 
-
+.banner-sticky{
+    width: 100%;
+    background-color: #1e87f0;
+    color: #fff!important;
+    padding: 0.8em;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    font-size: 10px;
+}
+.banner-sticky a{
+	color: inherit;
+}
 
