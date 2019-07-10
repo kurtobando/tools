@@ -11,6 +11,5 @@ Enter a domain name on the search area, then click on Dig Records. This should r
 [![Tool Result](https://snag.gy/co1A34.jpg "Tool Result")](https://snag.gy/co1A34.jpg "Tool Result")
 
 ### Tools used?
-1. **Codeigniter** as PHP Framework.
-2. **UIKit** as CSS Framework.
-3. **Vanilla Javascript** for simple DOM Manipulation.
+1. **UIKit** as CSS Framework.
+2. **Vanilla Javascript** for simple DOM Manipulation.
