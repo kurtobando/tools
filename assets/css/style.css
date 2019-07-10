@@ -1,4 +1,11 @@
-#result_dns section {
-	margin : 0em 0em 2em 0em;
+#dig_result {
+	padding : 1em;
 }
+
+#dig_result b{
+	display: block;
+	margin-top : 1em;
+}
+
+
 
