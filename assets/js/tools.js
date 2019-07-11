@@ -1,7 +1,8 @@
 let dig_form = document.getElementById('dig_form');
 let dig_result = document.getElementById('dig_result');
+let dig_url = document.getElementById('dig_url');
 let xmlhr = new XMLHttpRequest();
-
+let global_domain;
 
 
 
@@ -33,14 +34,16 @@ dig_form.addEventListener('submit', function(event) {
 
 // execute XMLHttpRequest with 'domains' as the search query
 function callTools(domain) {
-
+	global_domain = domain;
+	
 	xmlhr.open('GET', 'php/Tools.php?search=' + domain, true);
 	xmlhr.setRequestHeader("X-Requested-With", 'xmlhttprequest');
 	xmlhr.send();
 
 	xmlhr.onloadstart = function() {
-
+		
 		dig_result.innerHTML = '<div uk-spinner></div>';
+		dig_url.innerHTML = '';
 	}
 
 	xmlhr.onloadend = function() {}
@@ -129,7 +132,17 @@ function parseTools(xmlhr_response) {
 	// Whois record
 	dig_result.appendChild(createElement('WHOIS', 'b'));
 	dig_result.appendChild(createElement(xmlhr_response.WHOIS));
-
+	
+	// URL elements
+	dig_url.appendChild(createURLElement('Whois', 'https://www.whois.com/whois/' + global_domain));
+	dig_url.appendChild(createURLElement('Google Dig', 'https://toolbox.googleapps.com/apps/dig/#ANY/' + global_domain));
+	dig_url.appendChild(createURLElement('Reputation', 'https://www.talosintelligence.com/reputation_center/lookup?search=' + global_domain));
+	dig_url.appendChild(createURLElement('DNS History', 'https://securitytrails.com/domain/' + global_domain + '/history/ns'));
+	dig_url.appendChild(createURLElement('Website Archive', 'https://web.archive.org/web/*/' + global_domain));
+	dig_url.appendChild(createURLElement('IP location', 'https://tools.keycdn.com/geo?host=' + global_domain));
+	dig_url.appendChild(createURLElement('Website Speed Test', 'https://tools.keycdn.com/speed'));
+	dig_url.appendChild(createURLElement('SSL Checker', 'https://www.sslshopper.com/ssl-checker.html#hostname=' + global_domain));
+	
 }
 
 
@@ -153,6 +166,20 @@ function createElement(content, el = 'div') {
 
 }
 
+
+
+// create A tag
+// 'text' is the desired content
+// 'href' is the URL
+function createURLElement(text, href){
+	
+	let a_url = createElement(text, 'a');
+		a_url.setAttribute('href', href);
+		a_url.setAttribute('target', '_blank');
+	
+	return a_url;
+	
+}
 
 
 // loop array from raw json and return value of "shouldReturnValue"
