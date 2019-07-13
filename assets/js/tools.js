@@ -144,6 +144,7 @@ function parseTools(xmlhr_response) {
 	dig_url.appendChild(createURLElement('IP location', 'https://tools.keycdn.com/geo?host=' + global_domain));
 	dig_url.appendChild(createURLElement('Website Speed Test', 'https://tools.keycdn.com/speed'));
 	dig_url.appendChild(createURLElement('SSL Checker', 'https://www.sslshopper.com/ssl-checker.html#hostname=' + global_domain));
+	dig_url.appendChild(createURLElement('Sucuri Scan', 'https://sitecheck.sucuri.net/results/' + global_domain));
 	
 }
 
