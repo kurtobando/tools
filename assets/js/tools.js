@@ -110,7 +110,9 @@ function parseTools(xmlhr_response) {
 	
 		Object.keys( obj_ ).map( indexOfArray => {
 			
-			dig_result.appendChild(createElement(obj_[indexOfArray][0].host));
+			if(obj_[indexOfArray][0].host){
+				dig_result.appendChild(createElement(obj_[indexOfArray][0].host));
+		   	}
 			
 			if (obj_[indexOfArray][0]){
 				dig_result.appendChild(createElement(obj_[indexOfArray][0].ip, 'span'));
