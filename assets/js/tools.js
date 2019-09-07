@@ -36,7 +36,7 @@ dig_form.addEventListener('submit', function(event) {
 function callTools(domain) {
 	global_domain = domain;
 	
-	xmlhr.open('GET', 'php/Tools.php?search=' + domain, true);
+	xmlhr.open('GET', 'ajax_request.php?search=' + domain, true);
 	xmlhr.setRequestHeader("X-Requested-With", 'xmlhttprequest');
 	xmlhr.send();
 
