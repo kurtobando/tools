@@ -4,98 +4,123 @@
 
 class Tools{
 	
-	// https://www.php.net/manual/en/function.dns-get-record.php
+	
 	
 	private $domain;
 	private $result;
 	
 	
-	public function set_domain( $domain = ''){
+	
+	// htmlentities — Convert all applicable characters to HTML entities
+	// https://www.php.net/manual/en/function.htmlentities.php
+	
+	// trim — Strip whitespace (or other characters) from the beginning and end of a string
+	// https://www.php.net/manual/en/function.trim.php
+	
+	public function set_domain( $domain = '' ) {
 		
-		if(!empty( $domain )){
-			return $this->domain =  htmlentities(trim( $domain )) . ".";
+		if( !empty( $domain ) ){
+			
+			$this->domain = htmlentities( trim( $domain ) ) . ".";
+			return $this->domain;
 		}
+
+		exit( 'exit' );
+	}
+	
+	
+	
+	// shell_exec — Execute command via shell and return the complete output as a string
+	// https://www.php.net/manual/en/function.shell-exec.php
+	
+	private function domain_whois() {
 		
-		exit('exit');
-	}
-	
-	
-	private function __domain_whois(){
-		return $this->result['WHOIS'] = shell_exec("whois " . $this->domain);
-	}
-	
-	
-	private function __domain_dig_a(){
-		return $this->result['DIG']['A'] = dns_get_record( $this->domain, DNS_A);
-	}
-	
-	
-	private function __domain_dig_aaaa(){
-		return $this->result['DIG']['AAAA'] = dns_get_record( $this->domain, DNS_AAAA);
-	}
-	
-	
-	private function __domain_dig_cname(){
-		return $this->result['DIG']['CNAME'] = dns_get_record( $this->domain, DNS_CNAME);
-	}
-	
-	
-	private function __domain_dig_mx(){
-		return $this->result['DIG']['MX'] = dns_get_record( $this->domain, DNS_MX);
-	}
-	
-	
-	private function __domain_dig_mx_a(){
+		$this->result[ 'WHOIS' ] = shell_exec( "whois " . $this->domain );
 		
-		$mx_i = 0;
-		$mx_records = $this->result['DIG']['MX'];
-		$mx_records_count = count($this->result['DIG']['MX']);
+		return $this->result[ 'WHOIS' ];
+	}
+	
+	
+	
+	// dns_get_record — Fetch DNS Resource Records associated with a hostname
+	// https://www.php.net/manual/en/function.dns-get-record.php
+	
+	private function domain_dig_a() {
 		
-		foreach($mx_records as $mx){
-			$this->result['DIG']['MX_A'][$mx_i] = dns_get_record( $mx['target'] . '.', DNS_A + DNS_AAAA);
-			$mx_i++;
-		}
+				$this->result[ 'DIG' ][ 'A' ] = dns_get_record( $this->domain, DNS_A );
+		return 	$this->result[ 'DIG' ][ 'A' ];
+	}
+	
+	private function domain_dig_aaaa() {
 		
-		return $this->result['DIG']['MX_A'];
+				$this->result[ 'DIG' ][ 'AAAA' ] = dns_get_record( $this->domain, DNS_AAAA );
+		return 	$this->result[ 'DIG' ][ 'AAAA' ];
 	}
 	
-	
-	private function __domain_dig_ns(){
-		return $this->result['DIG']['NS'] = dns_get_record( $this->domain, DNS_NS);
+	private function domain_dig_cname() {
+
+				$this->result[ 'DIG' ][ 'CNAME' ] = dns_get_record( $this->domain, DNS_CNAME );
+		return 	$this->result[ 'DIG' ][ 'CNAME' ];
 	}
 	
-	
-	private function __domain_dig_txt(){
-		return $this->result['DIG']['TXT'] = dns_get_record( $this->domain, DNS_TXT);
+	private function domain_dig_mx() {
+		
+				$this->result[ 'DIG' ][ 'MX' ] = dns_get_record( $this->domain, DNS_MX );
+		return 	$this->result[ 'DIG' ][ 'MX' ];
 	}
 	
-	
-	private function __domain_dig_soa(){
-		return $this->result['DIG']['SOA'] = dns_get_record( $this->domain, DNS_SOA);
+	private function domain_dig_ns() {
+		
+				$this->result[ 'DIG' ][ 'NS' ] = dns_get_record( $this->domain, DNS_NS );
+		return 	$this->result[ 'DIG' ][ 'NS' ];
 	}
 	
-	
-	private function __domain_dig_srv(){
-		return $this->result['DIG']['SRV'] = dns_get_record( $this->domain, DNS_SRV);
+	private function domain_dig_txt() {
+		
+				$this->result[ 'DIG' ][ 'TXT' ] = dns_get_record( $this->domain, DNS_TXT );
+		return 	$this->result[ 'DIG' ][ 'TXT' ];
 	}
+	
+	private function domain_dig_soa() {
+		
+				$this->result[ 'DIG' ][ 'SOA' ] = dns_get_record( $this->domain, DNS_SOA );
+		return 	$this->result[ 'DIG' ][ 'SOA' ];
+	}
+	
+	private function domain_dig_srv(){
+		
+				$this->result[ 'DIG' ][ 'SRV' ] = dns_get_record( $this->domain, DNS_SRV );
+		return 	$this->result[ 'DIG' ][ 'SRV' ];
+	}
+	
 	
 	
 	public function get_result(){
 		
-		$this->__domain_whois();
-		$this->__domain_dig_a();
-		$this->__domain_dig_aaaa();
-		$this->__domain_dig_cname();
-		$this->__domain_dig_mx();
-		$this->__domain_dig_mx_a();
-		$this->__domain_dig_ns();
-		$this->__domain_dig_txt();
-		$this->__domain_dig_soa();
-		$this->__domain_dig_srv();
+		// execute private function
+		$this->domain_whois();
+		$this->domain_dig_a();
+		$this->domain_dig_aaaa();
+		$this->domain_dig_cname();
+		$this->domain_dig_mx();
+		$this->domain_dig_ns();
+		$this->domain_dig_txt();
+		$this->domain_dig_soa();
+		$this->domain_dig_srv();
 		
-		echo json_encode($this->result);
+		// remove empty array
+		// https://www.geeksforgeeks.org/program-to-remove-empty-array-elements-in-php/
+		
+		foreach ( $this->result[ 'DIG' ] as $key => $value ) {
+			
+			if( empty($value) ) {
+				unset( $this->result[ 'DIG' ][ $key ]  );
+			} 
+		}
+		
+		// echo result with json format
+		echo json_encode( $this->result );
 	}
-	
 }
 
 
