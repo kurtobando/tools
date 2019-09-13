@@ -28,6 +28,7 @@ function Tools() {
 	
 	
 	
+	// handle events from XMLHttpRequest()
 	this.run = function( callback ) {
 		
 		this.ajax();
@@ -79,24 +80,26 @@ function Tools() {
 	
 	
 	
-	this.whois = function() {
+	this.whois = function( callback ) {
 		
 		console.log( 'whois() ...' );
 		
 		this.run( function(){
-			console.log( xmlhr_response.WHOIS );
+			
+			callback( xmlhr_response.WHOIS );
 		});
 		
 	}
 	
 	
 	
-	this.dig = function() {
+	this.dig = function( callback ) {
 		
 		console.log( 'dig()  ...' );
 		
 		this.run( function(){
-			console.log( xmlhr_response.DIG );
+			
+			callback( xmlhr_response.DIG );
 		});
 		
 	}
