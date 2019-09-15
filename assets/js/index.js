@@ -24,8 +24,8 @@ document.forms.dig_form.addEventListener( 'submit', function( event ) {
 	
 	
 	// pass dig_search value to each (search) property
-	dig.search 		= dig_search.value;
-	whois.search 	= dig_search.value;
+	dig.search 		= dig_search.value.trim();
+	whois.search 	= dig_search.value.trim();
 	
 	
 	
