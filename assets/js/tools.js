@@ -6,6 +6,8 @@ function Tools() {
 	
 	let xmlhr_response;
 
+	
+	
 	this.search;
 	this.xmlhr = new XMLHttpRequest();
 	this.request_method = 'GET';
