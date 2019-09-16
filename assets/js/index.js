@@ -26,7 +26,7 @@ document.forms.dig_form.addEventListener( 'submit', function( event ) {
 	
 	
 	// loads spinner
-	result_dig.innerHTML = '<div uk-spinner></div>';
+	//result_dig.innerHTML = '<div uk-spinner></div>';
 	result_whois.innerHTML = '<div uk-spinner></div>';
 	
 	
@@ -42,16 +42,19 @@ document.forms.dig_form.addEventListener( 'submit', function( event ) {
 		// console.log( response );
 		
 		// remove spinner in dig container only
-		document.querySelectorAll('.uk-spinner')[0].removeAttribute('uk-spinner');
+		//document.querySelectorAll( '.uk-spinner' )[0].removeAttribute( 'uk-spinner' );
 		
 		
 		// display records per line
-		dislayArrayPerLine( getValueOf( response.NS, 'target' ), 'NS Record(s)', result_dig );
-		dislayArrayPerLine( getValueOf( response.A, 'ip' ), 'A Record(s)', result_dig );
-		dislayArrayPerLine( getValueOf( response.AAAA, 'ipv6' ), 'AAAA Record(s)', result_dig );
-		dislayArrayPerLine( getValueOf( response.CNAME, 'target' ), 'CNAME Record(s)', result_dig );
-		dislayArrayPerLine( getValueOf( response.MX, 'target' ), 'MX Record(s)', result_dig );
-		dislayArrayPerLine( getValueOf( response.TXT, 'txt' ), 'TXT Record(s)', result_dig );
+		result_dig.innerHTML += '<b>DNS Result for ' + dig_search.value.trim() + '</b><br>';
+		
+		dislayArrayPerLine( getValueOf( response.NS, 'target' ), 'NS', result_dig );
+		dislayArrayPerLine( getValueOf( response.A, 'ip' ), 'A', result_dig );
+		dislayArrayPerLine( getValueOf( response.AAAA, 'ipv6' ), 'AAAA ', result_dig );
+		dislayArrayPerLine( getValueOf( response.CNAME, 'target' ), 'CNAME', result_dig );
+		dislayArrayPerLine( getValueOf( response.TXT, 'txt' ), 'TXT ', result_dig );
+		 
+		displayMailARecord( getValueOf( response.MX, 'target' ), result_dig )
 		
 	});
 	
@@ -153,6 +156,41 @@ function dislayArrayPerLine( anArray, headline, parentElement ) {
 	for ( let item in anArray ) {
 
 		parentElement.appendChild( createElement( anArray[ item ] ) );
+	}
+	
+}
+
+
+function displayMailARecord( MX, parentElement ) {
+	
+	if ( MX === undefined ) {
+
+		return 0;
+	}
+	
+
+	
+	// set counter to ensure <b> tag display only once
+	let counter = 0;
+	
+	for ( let item in MX ) {
+		
+		// prepare dig each MX records 
+		let dig_mail_a = new Tools();
+			dig_mail_a.search = MX[ item ];
+			dig_mail_a.dig( function( response ) {
+
+				if ( counter == 0 ) {
+					parentElement.innerHTML += '<b>MX</b><br>';
+				}
+
+				parentElement.innerHTML += MX[ item ] + '<br>';
+				parentElement.innerHTML += getValueOf( response.A, 'ip' ) + '<br>';
+				parentElement.innerHTML += getValueOf( response.AAAA, 'ipv6' ) + '<br>';
+
+				counter++;
+			});
+
 	}
 	
 }
