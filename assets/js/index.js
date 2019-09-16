@@ -18,8 +18,16 @@ document.forms.dig_form.addEventListener( 'submit', function( event ) {
 
 	
 	
-	// reset #dig_url innerHTML 
+	// reset innerHTML 
 	dig_url.innerHTML = '';
+	result_dig.innerHTML = '';
+	result_whois.innerHTML = '';
+	
+	
+	
+	// loads spinner
+	result_dig.innerHTML = '<div uk-spinner></div>';
+	result_whois.innerHTML = '<div uk-spinner></div>';
 	
 	
 	
@@ -31,16 +39,27 @@ document.forms.dig_form.addEventListener( 'submit', function( event ) {
 	
 	dig.dig( function( response ) {
 		
-		console.log( response );
+		// console.log( response );
 		
-		result_dig.innerHTML 	= response;
+		// remove spinner in dig container only
+		document.querySelectorAll('.uk-spinner')[0].removeAttribute('uk-spinner');
+		
+		
+		// display records per line
+		dislayArrayPerLine( getValueOf( response.NS, 'target' ), 'NS Record(s)', result_dig );
+		dislayArrayPerLine( getValueOf( response.A, 'ip' ), 'A Record(s)', result_dig );
+		dislayArrayPerLine( getValueOf( response.AAAA, 'ipv6' ), 'AAAA Record(s)', result_dig );
+		dislayArrayPerLine( getValueOf( response.CNAME, 'target' ), 'CNAME Record(s)', result_dig );
+		dislayArrayPerLine( getValueOf( response.MX, 'target' ), 'MX Record(s)', result_dig );
+		dislayArrayPerLine( getValueOf( response.TXT, 'txt' ), 'TXT Record(s)', result_dig );
+		
 	});
 	
 	
 	
 	whois.whois( function( response ) {
 		
-		console.log( response );
+		// console.log( response );
 		
 		result_whois.innerHTML 	= response;
 	});
@@ -92,4 +111,49 @@ function createAnchorTag( text, href ) {
 	
 }
 
+
+
+function getValueOf( obj, shouldReturnValue ) {
+	
+	if ( obj === undefined || obj.length === 0 ) {
+
+		return 0;
+	}
+
+	let array = Object.keys( obj ).map( indexOfArray => {
+
+		return obj[ indexOfArray ];
+	});
+
+	let object = Object.keys( array ).map( indexOfObject => {
+
+		if ( array[ indexOfObject ][ shouldReturnValue ] !== undefined ) {
+
+			return array[ indexOfObject ][ shouldReturnValue ];
+		}
+
+		return 0;
+	});
+
+	return object;
+
+}
+
+
+
+function dislayArrayPerLine( anArray, headline, parentElement ) {
+
+	if ( anArray.length == undefined ) {
+
+		return 0;
+	}
+
+	parentElement.appendChild( createElement( headline, 'b' ) );
+
+	for ( let item in anArray ) {
+
+		parentElement.appendChild( createElement( anArray[ item ] ) );
+	}
+	
+}
 
