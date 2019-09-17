@@ -20,13 +20,10 @@ document.forms.dig_form.addEventListener( 'submit', function( event ) {
 	
 	// reset innerHTML 
 	dig_url.innerHTML = '';
-	result_dig.innerHTML = '';
-	result_whois.innerHTML = '';
 	
 	
 	
 	// loads spinner
-	//result_dig.innerHTML = '<div uk-spinner></div>';
 	result_whois.innerHTML = '<div uk-spinner></div>';
 	
 	
@@ -39,11 +36,7 @@ document.forms.dig_form.addEventListener( 'submit', function( event ) {
 	
 	dig.dig( function( response ) {
 		
-		// console.log( response );
-		
-		// remove spinner in dig container only
-		//document.querySelectorAll( '.uk-spinner' )[0].removeAttribute( 'uk-spinner' );
-		
+		result_dig.innerHTML = '';
 		
 		// display records per line
 		result_dig.innerHTML += '<b>DNS Result for ' + dig_search.value.trim() + '</b><br>';
@@ -62,9 +55,8 @@ document.forms.dig_form.addEventListener( 'submit', function( event ) {
 	
 	whois.whois( function( response ) {
 		
-		// console.log( response );
-		
-		result_whois.innerHTML 	= response;
+		result_whois.innerHTML = '';
+		result_whois.innerHTML = response;
 	});
 	
 	
@@ -129,7 +121,7 @@ function getValueOf( obj, shouldReturnValue ) {
 	});
 
 	let object = Object.keys( array ).map( indexOfObject => {
-
+		console.log(array[ indexOfObject ][ shouldReturnValue ]);
 		if ( array[ indexOfObject ][ shouldReturnValue ] !== undefined ) {
 
 			return array[ indexOfObject ][ shouldReturnValue ];
