@@ -38,15 +38,17 @@ document.forms.dig_form.addEventListener( 'submit', function( event ) {
 		
 		result_dig.innerHTML = '';
 		
-		// display records per line
+		// display header 
 		result_dig.innerHTML += '<b>DNS Result for ' + dig_search.value.trim() + '</b><br>';
 		
+		// display records per line
 		dislayArrayPerLine( getValueOf( response.NS, 'target' ), 'NS', result_dig );
 		dislayArrayPerLine( getValueOf( response.A, 'ip' ), 'A', result_dig );
 		dislayArrayPerLine( getValueOf( response.AAAA, 'ipv6' ), 'AAAA ', result_dig );
 		dislayArrayPerLine( getValueOf( response.CNAME, 'target' ), 'CNAME', result_dig );
 		dislayArrayPerLine( getValueOf( response.TXT, 'txt' ), 'TXT ', result_dig );
 		 
+		// display MX records per line
 		displayMailARecord( getValueOf( response.MX, 'target' ), result_dig )
 		
 	});
@@ -112,7 +114,7 @@ function getValueOf( obj, shouldReturnValue ) {
 	
 	if ( obj === undefined || obj.length === 0 ) {
 
-		return 0;
+		return 0 ;
 	}
 
 	let array = Object.keys( obj ).map( indexOfArray => {
@@ -121,7 +123,7 @@ function getValueOf( obj, shouldReturnValue ) {
 	});
 
 	let object = Object.keys( array ).map( indexOfObject => {
-		console.log(array[ indexOfObject ][ shouldReturnValue ]);
+		
 		if ( array[ indexOfObject ][ shouldReturnValue ] !== undefined ) {
 
 			return array[ indexOfObject ][ shouldReturnValue ];
@@ -143,6 +145,7 @@ function dislayArrayPerLine( anArray, headline, parentElement ) {
 		return 0;
 	}
 
+	
 	
 	// set counter to ensure <b> tag display only once
 	let counter = 0;
@@ -180,14 +183,21 @@ function displayMailARecord( MX, parentElement ) {
 		let dig_mail_a = new Tools();
 			dig_mail_a.search = MX[ item ];
 			dig_mail_a.dig( function( response ) {
-
+			
 				if ( counter == 0 ) {
 					parentElement.innerHTML += '<b>MX</b><br>';
 				}
 
 				parentElement.innerHTML += MX[ item ] + '<br>';
-				parentElement.innerHTML += getValueOf( response.A, 'ip' ) + '<br>';
-				parentElement.innerHTML += getValueOf( response.AAAA, 'ipv6' ) + '<br>';
+				
+				// ensures 0 value will not be displayed
+				if ( getValueOf( response.A, 'ip' ) !== 0 ) {
+					parentElement.innerHTML += getValueOf( response.A, 'ip' ) + '<br>';
+				}
+				
+				if ( getValueOf( response.AAAA, 'ipv6' ) !== 0 ) {
+					parentElement.innerHTML += getValueOf( response.AAAA, 'ipv6' ) + '<br>';
+				}
 
 				counter++;
 			});
