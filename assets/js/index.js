@@ -25,6 +25,7 @@ document.forms.dig_form.addEventListener( 'submit', function( event ) {
 	
 	// loads spinner
 	result_whois.innerHTML = '<div uk-spinner></div>';
+	result_dig.innerHTML = '<div uk-spinner></div>';
 	
 	
 	
