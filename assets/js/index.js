@@ -143,11 +143,20 @@ function dislayArrayPerLine( anArray, headline, parentElement ) {
 		return 0;
 	}
 
-	parentElement.appendChild( createElement( headline, 'b' ) );
-
+	
+	// set counter to ensure <b> tag display only once
+	let counter = 0;
+	
 	for ( let item in anArray ) {
-
+		
+		if ( counter == 0 ) { 
+			parentElement.appendChild( createElement( headline, 'b' ) );
+		}
+		
 		parentElement.appendChild( createElement( anArray[ item ] ) );
+		
+		counter++;
+		
 	}
 	
 }
