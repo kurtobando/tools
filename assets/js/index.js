@@ -20,7 +20,8 @@ document.forms.dig_form.addEventListener( 'submit', function( event ) {
 	
 	// reset innerHTML 
 	dig_url.innerHTML = '';
-	
+	result_dig.removeAttribute('hidden');
+	result_whois.removeAttribute('hidden');
 	
 	
 	// loads spinner
